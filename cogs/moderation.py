@@ -19,13 +19,13 @@ class Moderation(commands.Cog):
             await message.delete()
 
         else:
-            embed=discord.Embed(description='Please provide a valid number between `0-100`.', color=discord.Color.red())
+            embed=discord.Embed(description='Perfavore inserisci un numero tra `0-100`.', color=discord.Color.red())
             await ctx.channel.send(embed=embed)
 
     @clear.error
     async def handler(self, ctx, error):
         if isinstance(error, commands.BadArgument) or isinstance(error, commands.MissingRequiredArgument):
-            embed=discord.Embed(description='Please provide a valid number between `0-100`.', color=discord.Color.red())
+            embed=discord.Embed(description='Perfavore inserisci un numero valido tra `0-100`.', color=discord.Color.red())
             await ctx.channel.send(embed=embed)
 def setup(bot):
     bot.add_cog(Moderation(bot))
