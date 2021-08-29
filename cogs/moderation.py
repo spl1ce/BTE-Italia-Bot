@@ -13,7 +13,7 @@ class Moderation(commands.Cog):
         limit=100
         if amount<=limit:
             await ctx.channel.purge(limit=amount+1)
-            embed=discord.Embed(description=f'Cleared {amount} messages.', color=discord.Color.green())
+            embed=discord.Embed(description=f'Cancellati {amount} messaggi.', color=discord.Color.green())
             message = await ctx.channel.send(embed=embed)
             time.sleep(10)
             await message.delete()
