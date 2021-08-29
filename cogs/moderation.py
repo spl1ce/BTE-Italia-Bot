@@ -7,11 +7,11 @@ class Moderation(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='clear', description='Deletes the amount of messages provided.')
+    @commands.command(name='clear', description='Elimina la quantità di messaggi forniti.')
     @has_permissions(manage_messages=True)
     async def clear(self, ctx, amount: int):
         limit=100
-        if amount<=limit:
+        if 1 <= amount <= limit:
             await ctx.channel.purge(limit=amount+1)
             embed=discord.Embed(description=f'Cancellati {amount} messaggi.', color=discord.Color.green())
             message = await ctx.channel.send(embed=embed)
