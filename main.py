@@ -6,7 +6,7 @@ bot = commands.Bot(command_prefix='£')
 
 @bot.event
 async def on_connect():
-    print('Bot is ready!')
+    print('BTE Italia Bot In Funzione!')
 
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
