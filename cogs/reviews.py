@@ -9,7 +9,6 @@ class Reviews(commands.Cog):
     
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-        print('ok')
 
         # check if the message is in the reviews channel
         if payload.channel_id == 867045228543606854:
