@@ -59,10 +59,11 @@ class Reviews(commands.Cog):
                         await notifiche_channel.send(message)
 
                         # gives starter role and macroregion role
-                        await member.add_roles([starter_role, nord_role])
+                        await member.add_roles(starter_role)
+                        await member.add_roles(nord_role)
 
                         # edits user nickname
-                        await member.edit(nick=f'{member.nick} [{city}]')
+                        await member.edit(nick=f'{member.name} [{city}]')
 
                         # run command in #console
                         await console_channel.send(f'lp user {ign} group add starter')
@@ -73,10 +74,11 @@ class Reviews(commands.Cog):
                         await notifiche_channel.send(message)
 
                         # gives starter role and macroregion role
-                        await member.add_roles([starter_role, centro_role])
+                        await member.add_roles(starter_role)
+                        await member.add_roles(centro_role)
 
                         # edits user nickname
-                        await member.edit(nick=f'{member.nick} [{city}]')
+                        await member.edit(nick=f'{member.name} [{city}]')
 
                         # run command in #console
                         await console_channel.send(f'lp user {ign} group add starter')
@@ -87,10 +89,11 @@ class Reviews(commands.Cog):
                         await notifiche_channel.send(message)
 
                         # gives starter role and macroregion role
-                        await member.add_roles([starter_role, sud_role])
+                        await member.add_roles(starter_role)
+                        await member.add_roles(sud_role)
 
                         # edits user nickname
-                        await member.edit(nick=f'{member.nick} [{city}]')
+                        await member.edit(nick=f'{member.name} [{city}]')
 
                         # run command in #console
                         await console_channel.send(f'lp user {ign} group add starter')
@@ -103,7 +106,6 @@ class Reviews(commands.Cog):
 
                     embed=discord.Embed(description="Member has no roles.", color=discord.Color.red())
                     await log_channel.send(content=revisore_role.mention, embed=embed)
-
 
 def setup(bot):
     bot.add_cog(Reviews(bot))
