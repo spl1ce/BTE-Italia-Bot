@@ -22,7 +22,7 @@ class Reviews(commands.Cog):
             verify_emoji = await emoji_converter.convert(ctx, '<:Verified:707278127449112616>')
 
             # check if the message was sent by the bot
-            if message.author.name == 'BTE Italia' and payload.emoji == verify_emoji:
+            if payload.emoji == verify_emoji:
             
                 username = message.embeds[0].fields[0].value
                 ign = message.embeds[0].fields[1].value
