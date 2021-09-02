@@ -2,7 +2,11 @@ import discord
 import os
 from discord.ext import commands
 
-bot = commands.Bot(command_prefix='£')
+intents=discord.Intents.all()
+intents.reactions=True
+intents.messages=True
+
+bot = commands.Bot(command_prefix='£', intents=intents)
 
 async def run_once_when_ready():
     await bot.wait_until_ready()
@@ -14,6 +18,8 @@ for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
 
+    else:
+        print(f'Unable to load {filename}.')
 
 bot.loop.create_task(run_once_when_ready())
 bot.run('ODc1MjkzNDA3OTY5NDI3NTE4.YRTagg.59qiBctr7wDaVjXw0hTRtX6zkYs')
