@@ -15,7 +15,6 @@ class Reviews(commands.Cog):
             guild = self.bot.get_guild(payload.guild_id)
             channel = guild.get_channel(payload.channel_id)
             message = await channel.fetch_message(payload.message_id)
-            test_channel = guild.get_channel(696471338403233862)
             ctx = await self.bot.get_context(message)
             emoji_converter = PartialEmojiConverter()
             verify_emoji = await emoji_converter.convert(ctx, '<:Verified:707278127449112616>')
@@ -26,7 +25,7 @@ class Reviews(commands.Cog):
                 username = message.embeds[0].fields[0].value
                 ign = message.embeds[0].fields[1].value
                 macroregion = message.embeds[0].fields[4].value
-                city = message.embeds[0].fields[5].value
+                city = str(message.embeds[0].fields[5].value).title()
                 revisore_role = guild.get_role(830888232609906698)
                 log_channel = guild.get_channel(697438179975888966)
 
