@@ -1,14 +1,13 @@
 import discord
 import time
 from discord.ext import commands
-from discord.ext.commands.core import has_permissions
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(name='clear', description='Elimina la quantità di messaggi forniti.')
-    @has_permissions(manage_messages=True)
+    @commands.has_permissions(manage_messages=True)
     async def clear(self, ctx, amount: int):
         limit=100
         if 1 <= amount <= limit:
