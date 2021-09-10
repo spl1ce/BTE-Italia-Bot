@@ -26,6 +26,8 @@ class Moderation(commands.Cog):
         if isinstance(error, commands.BadArgument) or isinstance(error, commands.MissingRequiredArgument):
             embed=discord.Embed(description='Perfavore inserisci un numero valido tra `0-100`.', color=discord.Color.red())
             await ctx.channel.send(embed=embed)
-
+        else:
+            print(error)
+            
 def setup(bot):
     bot.add_cog(Moderation(bot))
