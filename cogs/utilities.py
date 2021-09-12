@@ -19,7 +19,7 @@ class Utilities(commands.Cog):
     @post.error
     async def handler(self, ctx, error):
         if isinstance(error, commands.MissingRole):
-            embed = discord.Embed(description="You don't have permission to use this command.", color=discord.Color.red())
+            embed = discord.Embed(description="Non hai il permesso di usare questo comando.", color=discord.Color.red())
             await ctx.send(embed=embed)
         else:
             print(error)
