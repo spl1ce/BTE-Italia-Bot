@@ -17,6 +17,10 @@ class Utilities(commands.Cog):
         notifiche_channel = self.bot.get_channel(697169688005836810)
 
         await notifiche_channel.send(f'{message}\n\n{link_msg}')
+        
+        embed = discord.Embed(description='Posted!', color=discord.Color.green())
+        await ctx.send(embed=embed)
+
 
     
     @commands.command(name='messaggio')
@@ -31,9 +35,18 @@ class Utilities(commands.Cog):
                 try:
                     destination_channel = await converter.convert(ctx, channel)
 
-                    embed = discord.Embed(description='Message sent!', color=discord.Color.green())
-                    await destination_channel.send(message)
+                    
+                    try:
+                        await destination_channel.send(message)
 
+                    except Exception as e:
+                        embed = discord.Embed(description="Couldn't send a message to this channel.", color=discord.Color.red())
+                        await ctx.send(embed=embed)
+                        return
+
+                    embed = discord.Embed(description='Message sent!', color=discord.Color.green())
+                    await ctx.send(embed=embed)
+                
                 except commands.ChannelNotFound:
                     embed = discord.Embed(description='Channel not found.', color=discord.Color.red())
                     await ctx.send(embed=embed)
@@ -45,7 +58,8 @@ class Utilities(commands.Cog):
         else:
             embed = discord.Embed(description='You must provide a channel.', color=discord.Color.red())
             await ctx.send(embed=embed)
-    
+
+
     @commands.command(name='reazione')
     @commands.has_role(695697978391789619)
     async def reazione(self, ctx, message = None, reaction = None):
@@ -82,12 +96,23 @@ class Utilities(commands.Cog):
 
 
                     except commands.PartialEmojiConversionFailure:
-                        embed=discord.Embed(description='Please provide a valid emoji.', color=discord.Color.red())
+                        embed = discord.Embed(description='Please provide a valid emoji.', color=discord.Color.red())
                         await ctx.send(embed=embed)
                         return
 
-                await message.add_reaction(reaction_emoji)
+                try:
+                    await message.add_reaction(reaction_emoji)
+                    
+
+                except Exception as e:
+                    print(e)
+
+                    embed = discord.Embed(description="Couldn't react to this message.", color=discord.Color.red())
+                    await ctx.send(embed=embed)
+                    return
                 
+                embed = discord.Embed(description='Reacted!', color=discord.Color.green())
+                await ctx.send(embed=embed)    
 
             else:
                 embed = discord.Embed(description='You must provide a reaction emoji.', color=discord.Color.red())
