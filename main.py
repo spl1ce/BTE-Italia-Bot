@@ -22,4 +22,4 @@ for filename in os.listdir('./cogs'):
         print(f'Unable to load {filename}.')
 
 bot.loop.create_task(run_once_when_ready())
-bot.run('ODc1MjkzNDA3OTY5NDI3NTE4.YRTagg.59qiBctr7wDaVjXw0hTRtX6zkYs')
+bot.run(os.environ.get('TOKEN'))
