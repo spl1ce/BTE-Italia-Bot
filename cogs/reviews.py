@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import MemberConverter
 from discord.ext.commands import PartialEmojiConverter
+from discord.ext.commands.errors import MemberNotFound
 
 class Reviews(commands.Cog):
     def __init__(self, bot):
@@ -28,9 +29,14 @@ class Reviews(commands.Cog):
                 city = str(message.embeds[0].fields[5].value).title()
                 revisore_role = guild.get_role(830888232609906698)
                 log_channel = guild.get_channel(697438179975888966)
-
-                converter = MemberConverter()
-                member = await converter.convert(ctx, username)
+                
+                try:
+                    converter = MemberConverter()
+                    member = await converter.convert(ctx, username)
+                except commands.MemberNotFound:
+                    embed=discord.Embed(description="Member not found.", color=discord.Color.red())
+                    await log_channel.send(content=revisore_role.mention, embed=embed)
+                    return
 
                 # check if user is in the discord server
                 if guild in member.mutual_guilds and len(member.roles) != 0:
@@ -101,9 +107,41 @@ class Reviews(commands.Cog):
                         await log_channel.send(content=revisore_role.mention, embed=embed)
 
                 else:
-
                     embed=discord.Embed(description="Member has no roles.", color=discord.Color.red())
                     await log_channel.send(content=revisore_role.mention, embed=embed)
+            
+            elif payload.emoji == '❌':
+                
+                username = message.embeds[0].fields[0].value
+                notifiche_channel = guild.get_channel(697169688005836810)
+                log_channel = guild.get_channel(697438179975888966)
+                supporto_channel = guild.get_channel(697382012918562816)
+                revisore_role = guild.get_role(830888232609906698)
+                italiano_role = guild.get_role(698617888675856514)
+                international_role = guild.get_role(698566163738656909)
+
+                try:
+                    converter = MemberConverter()
+                    member = await converter.convert(ctx, username)
+                
+                except commands.MemberNotFound:
+                    embed=discord.Embed(description="Member not found.", color=discord.Color.red())
+                    await log_channel.send(content=revisore_role.mention, embed=embed)
+                    return
+
+
+                if italiano_role in member.roles:    
+                    message=f'Ci dispiace {member.mention}!\La tua applicazione è stata rigettata, chiedi in {supporto_channel.mention} la motivazione.'
+                    await notifiche_channel.send(message)
+
+                elif international_role in member.roles:
+                    message=f"Sorry, {member.mention}!\Your application has been denied, ask in {supporto_channel.mention} the reason."
+                    await notifiche_channel.send(message)
+                
+                else:
+                    embed=discord.Embed(description="Member has no roles.", color=discord.Color.red())
+                    await log_channel.send(content=revisore_role.mention, embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Reviews(bot))
