@@ -101,7 +101,7 @@ class Utilities(commands.Cog):
                         return
 
                 try:
-                    await message.add_reaction(reaction_emoji)
+                    await reaction_message.add_reaction(reaction_emoji)
                     
 
                 except Exception as e:
