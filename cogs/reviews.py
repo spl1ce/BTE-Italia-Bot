@@ -51,16 +51,20 @@ class Reviews(commands.Cog):
 
                     # check if member has international role or italiano role
                     if italiano_role in member.roles:
-                        message=f'Congratulazioni, {member.mention}!\nSei stato accettato come Starter a {city}.'
+                        notification_message = f'Congratulazioni, {member.mention}!\nSei stato accettato come Starter a {city}.'
 
                     elif international_role in member.roles:
-                        message=f"Congratulations, {member.mention}!\nYou've been accepted as a Starter in {city}"
+                        notification_message = f"Congratulations, {member.mention}!\nYou've been accepted as a Starter in {city}"
 
+                    else:
+                        embed=discord.Embed(description="Member doesn't have international role nor italiano role.", color=discord.Color.red())
+                        await log_channel.send(content=revisore_role.mention, embed=embed)
+                        return
 
                     if macroregion == 'NORD':
 
                         # send a notification
-                        await notifiche_channel.send(message)
+                        await notifiche_channel.send(notification_message)
 
                         # gives starter role and macroregion role
                         await member.add_roles(starter_role)
@@ -75,7 +79,7 @@ class Reviews(commands.Cog):
 
                     elif macroregion == 'CENTRO':
                         # send a notification
-                        await notifiche_channel.send(message)
+                        await notifiche_channel.send(notification_message)
 
                         # gives starter role and macroregion role
                         await member.add_roles(starter_role)
@@ -90,7 +94,7 @@ class Reviews(commands.Cog):
 
                     elif macroregion == 'SUD':
                         # send a notification
-                        await notifiche_channel.send(message)
+                        await notifiche_channel.send(notification_message)
 
                         # gives starter role and macroregion role
                         await member.add_roles(starter_role)
