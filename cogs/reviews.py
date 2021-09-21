@@ -39,7 +39,7 @@ class Reviews(commands.Cog):
                     return
 
                 # check if user is in the discord server
-                if guild in member.mutual_guilds and len(member.roles) != 0:
+                if guild in member.mutual_guilds and len(member.roles) != 1:
                     italiano_role = guild.get_role(698617888675856514)
                     international_role = guild.get_role(698566163738656909)
                     notifiche_channel = guild.get_channel(697169688005836810)
@@ -111,7 +111,7 @@ class Reviews(commands.Cog):
                         await log_channel.send(content=revisore_role.mention, embed=embed)
 
                 else:
-                    embed=discord.Embed(description="Member has no roles.", color=discord.Color.red())
+                    embed=discord.Embed(description="Member is not in the server or has no roles.", color=discord.Color.red())
                     await log_channel.send(content=revisore_role.mention, embed=embed)
             
             elif payload.emoji == '❌':
