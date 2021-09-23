@@ -76,17 +76,17 @@ class Reviews(commands.Cog):
                         await log_channel.send(content=revisore_role.mention, embed=embed)
                         return
 
-                        # send a notification
-                        await notifiche_channel.send(notification_message)
+                    # send a notification
+                    await notifiche_channel.send(notification_message)
 
-                        # gives starter role and macroregion role
-                        await member.add_roles(starter_role)
+                    # gives starter role and macroregion role
+                    await member.add_roles(starter_role)
 
-                        # edits user nickname
-                        await member.edit(nick=f'{member.name} [{city}]')
+                    # edits user nickname
+                    await member.edit(nick=f'{member.name} [{city}]')
 
-                        # run command in #console
-                        await console_channel.send(f'lp user {ign} group add starter')
+                    # run command in #console
+                    await console_channel.send(f'lp user {ign} group add starter')
 
                     if macroregion == 'NORD':
                         await member.add_roles(nord_role)
