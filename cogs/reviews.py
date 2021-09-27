@@ -1,7 +1,5 @@
 import discord
 from discord.ext import commands
-from discord.ext.commands import MemberConverter
-from discord.ext.commands import PartialEmojiConverter
 
 
 class Reviews(commands.Cog):
@@ -17,7 +15,7 @@ class Reviews(commands.Cog):
             channel = guild.get_channel(payload.channel_id)
             message = await channel.fetch_message(payload.message_id)
             ctx = await self.bot.get_context(message)
-            emoji_converter = PartialEmojiConverter()
+            emoji_converter = commands.PartialEmojiConverter()
             verify_emoji = await emoji_converter.convert(ctx, '<:Verified:707278127449112616>')
 
             # Gets the reactor user and check if it has the role revisore
@@ -45,7 +43,7 @@ class Reviews(commands.Cog):
                 city = str(message.embeds[0].fields[5].value).title()
 
                 try:
-                    converter = MemberConverter()
+                    converter = commands.MemberConverter()
                     member = await converter.convert(ctx, username)
                 except commands.MemberNotFound:
                     embed = discord.Embed(
@@ -60,16 +58,17 @@ class Reviews(commands.Cog):
                     notifiche_channel = guild.get_channel(697169688005836810)
                     console_channel = guild.get_channel(778281056284442664)
                     starter_role = guild.get_role(704332197628477450)
+                    newbie_role = guild.get_role(884464061851521065)
                     nord_role = guild.get_role(698642644640858234)
                     centro_role = guild.get_role(698642874455163052)
                     sud_role = guild.get_role(698642975454003281)
 
                     # check if member has international role or italiano role
                     if italiano_role in member.roles:
-                        notification_message = f'Congratulazioni, {member.mention}!\nSei stato accettato come Starter a {city}.'
+                        notification_message = f"Congratulazioni, {member.mention}!\nSei stato accettato come Newbie a {city}."
 
                     elif international_role in member.roles:
-                        notification_message = f"Congratulations, {member.mention}!\nYou've been accepted as a Starter in {city}"
+                        notification_message = f"Congratulations, {member.mention}!\nYou've been accepted as a Newbie in {city}"
 
                     else:
                         embed=discord.Embed(description="Member doesn't have international role nor italiano role.", color=discord.Color.red())
@@ -80,13 +79,13 @@ class Reviews(commands.Cog):
                     await notifiche_channel.send(notification_message)
 
                     # gives starter role and macroregion role
-                    await member.add_roles(starter_role)
+                    await member.add_roles(newbie_role)
 
                     # edits user nickname
                     await member.edit(nick=f'{member.name} [{city}]')
 
                     # run command in #console
-                    await console_channel.send(f'lp user {ign} group add starter')
+                    await console_channel.send(f'lp user {ign} group add Newbie')
 
                     if macroregion == 'NORD':
                         await member.add_roles(nord_role)
@@ -115,7 +114,7 @@ class Reviews(commands.Cog):
                 international_role = guild.get_role(698566163738656909)
 
                 try:
-                    converter = MemberConverter()
+                    converter = commands.MemberConverter()
                     member = await converter.convert(ctx, username)
 
                 except commands.MemberNotFound:

@@ -1,7 +1,6 @@
 import discord
 import emoji
 from discord.ext import commands
-from discord.ext.commands.errors import ChannelNotFound
 
 class Utilities(commands.Cog):
     def __init__(self, bot): 
@@ -121,11 +120,62 @@ class Utilities(commands.Cog):
             embed = discord.Embed(description='You must provide a message.', color=discord.Color.red())
             await ctx.send(embed=embed)
 
+    @commands.command(name='approva')
+    @commands.has_role(704338128692838533)
+    async def approva(self, ctx, member = None):
+        approva_channel = ctx.guild.get_channel(891675282992431154)
+        if ctx.channel == approva_channel:
+            if member != None:
+                try:
+                    converter=commands.MemberConverter()
+                    member = await converter.convert(ctx, member)
 
+                    starter_role = ctx.guild.get_role(704332197628477450)
+                    if not starter_role in member.roles:
+                        try:
+                            newbie_role = ctx.guild.get_role(884464061851521065)
+                            await member.remove_roles(newbie_role)
+                            
+                        except Exception as e:
+                            print(e)
+                            embed=discord.Embed(description="Couldn't remove newbie role from the user.", color=discord.Color.red())
+                            await ctx.send(embed=embed)
+                            return
+
+                        try:
+                            starter_role = ctx.guild.get_role(704332197628477450)
+                            await member.add_roles(starter_role)
+
+
+                        except Exception as e:
+                            print(e)
+                            embed=discord.Embed(description="Removed newbie role but couldn't add starter role.", color=discord.Color.red())
+                            await ctx.send(embed=embed)
+                            return
+                        
+                        embed=discord.Embed(description=f"Approved {member.name}#{member.discriminator}!", color=discord.Color.green())
+                        await ctx.send(embed=embed)
+
+                    else:
+                        embed = discord.Embed(description='User already has starter role.', color=discord.Color.red())
+                        await ctx.send(embed=embed)
+
+                except commands.MemberNotFound:
+                    embed = discord.Embed(description='Member not found!', color=discord.Color.red())
+                    await ctx.send(embed=embed)
+                    return
+
+            else:
+                embed = discord.Embed(description='You must provide a member.', color=discord.Color.red())
+                await ctx.send(embed=embed)
+
+        else:
+            pass
 
     @post.error
     @messaggio.error
     @reazione.error
+    @approva.error
     async def handler(self, ctx, error):
         if isinstance(error, commands.MissingRole):
             embed = discord.Embed(description="Non hai il permesso di usare questo comando.", color=discord.Color.red())
