@@ -17,7 +17,7 @@ class Utilities(commands.Cog):
 
         await notifiche_channel.send(f'{message}\n\n{link_msg}')
         
-        embed = discord.Embed(description='Posted!', color=discord.Color.green())
+        embed = discord.Embed(description='Postato!', color=discord.Color.green())
         await ctx.send(embed=embed)
 
 
@@ -39,23 +39,23 @@ class Utilities(commands.Cog):
                         await destination_channel.send(message)
 
                     except Exception as e:
-                        embed = discord.Embed(description="Couldn't send a message to this channel.", color=discord.Color.red())
+                        embed = discord.Embed(description="Non è stato possibile mandare un messaggio a questo canale.", color=discord.Color.red())
                         await ctx.send(embed=embed)
                         return
 
-                    embed = discord.Embed(description='Message sent!', color=discord.Color.green())
+                    embed = discord.Embed(description='Messaggio inviato!', color=discord.Color.green())
                     await ctx.send(embed=embed)
                 
                 except commands.ChannelNotFound:
-                    embed = discord.Embed(description='Channel not found.', color=discord.Color.red())
+                    embed = discord.Embed(description='Canale non trovato.', color=discord.Color.red())
                     await ctx.send(embed=embed)
 
             else:
-                embed = discord.Embed(description='Please provide a valid message.', color=discord.Color.red())
+                embed = discord.Embed(description='Perfavore invia un messaggio valido.', color=discord.Color.red())
                 await ctx.send(embed=embed)
         
         else:
-            embed = discord.Embed(description='You must provide a channel.', color=discord.Color.red())
+            embed = discord.Embed(description='Devi indicare un canale.', color=discord.Color.red())
             await ctx.send(embed=embed)
 
 
@@ -80,7 +80,7 @@ class Utilities(commands.Cog):
                             pass
 
                     if reaction_message == None:
-                        embed = discord.Embed(description="Couldn't find the message.", color=discord.Color.red())
+                        embed = discord.Embed(description="Non è stato possibile trovare il messaggio.", color=discord.Color.red())
                         await ctx.send(embed=embed)
                         return
 
@@ -95,7 +95,7 @@ class Utilities(commands.Cog):
 
 
                     except commands.PartialEmojiConversionFailure:
-                        embed = discord.Embed(description='Please provide a valid emoji.', color=discord.Color.red())
+                        embed = discord.Embed(description='Perfavore indica un emoji valida.', color=discord.Color.red())
                         await ctx.send(embed=embed)
                         return
 
@@ -106,18 +106,18 @@ class Utilities(commands.Cog):
                 except Exception as e:
                     print(e)
 
-                    embed = discord.Embed(description="Couldn't react to this message.", color=discord.Color.red())
+                    embed = discord.Embed(description="Non è stato possibile reagire al messaggio.", color=discord.Color.red())
                     await ctx.send(embed=embed)
                     return
                 
-                embed = discord.Embed(description='Reacted!', color=discord.Color.green())
+                embed = discord.Embed(description='Reagito!', color=discord.Color.green())
                 await ctx.send(embed=embed)    
 
             else:
-                embed = discord.Embed(description='You must provide a reaction emoji.', color=discord.Color.red())
+                embed = discord.Embed(description='Devi indicare un emoji da reagire.', color=discord.Color.red())
                 await ctx.send(embed=embed)
         else:
-            embed = discord.Embed(description='You must provide a message.', color=discord.Color.red())
+            embed = discord.Embed(description='Devi indicare un messaggio.', color=discord.Color.red())
             await ctx.send(embed=embed)
 
     @commands.command(name='approva')
@@ -138,7 +138,7 @@ class Utilities(commands.Cog):
                             
                         except Exception as e:
                             print(e)
-                            embed=discord.Embed(description="Couldn't remove newbie role from the user.", color=discord.Color.red())
+                            embed=discord.Embed(description="Non è stato possibile rimuovere il ruolo Newbie dal utente.", color=discord.Color.red())
                             await ctx.send(embed=embed)
                             return
 
@@ -149,24 +149,24 @@ class Utilities(commands.Cog):
 
                         except Exception as e:
                             print(e)
-                            embed=discord.Embed(description="Removed newbie role but couldn't add starter role.", color=discord.Color.red())
+                            embed=discord.Embed(description="Rimosso il ruolo Newbie ma non è stato posssibile assegnare Starter.", color=discord.Color.red())
                             await ctx.send(embed=embed)
                             return
                         
-                        embed=discord.Embed(description=f"Approved {member.name}#{member.discriminator}!", color=discord.Color.green())
+                        embed=discord.Embed(description=f"Approvato {member.name}#{member.discriminator}!", color=discord.Color.green())
                         await ctx.send(embed=embed)
 
                     else:
-                        embed = discord.Embed(description='User already has starter role.', color=discord.Color.red())
+                        embed = discord.Embed(description='Utente ha già il ruolo Starter.', color=discord.Color.red())
                         await ctx.send(embed=embed)
 
                 except commands.MemberNotFound:
-                    embed = discord.Embed(description='Member not found!', color=discord.Color.red())
+                    embed = discord.Embed(description='Utente non trovato!', color=discord.Color.red())
                     await ctx.send(embed=embed)
                     return
 
             else:
-                embed = discord.Embed(description='You must provide a member.', color=discord.Color.red())
+                embed = discord.Embed(description='Devi indicare un Utente!', color=discord.Color.red())
                 await ctx.send(embed=embed)
 
         else:
