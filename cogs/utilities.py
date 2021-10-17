@@ -29,18 +29,24 @@ class Utilities(commands.Cog):
         
         if channel != None:
 
-            if message != None:
+            if message != None or ctx.message.attachments != None:
             
                 try:
                     destination_channel = await converter.convert(ctx, channel)
 
                     
                     try:
-                        await destination_channel.send(message)
+                        attachments = ctx.message.attachments
+                        files = []                        
+                        for file in attachments:
+                            files.append(await file.to_file())    
+                        
+                        await destination_channel.send(content=message, files=files)
 
                     except Exception as e:
                         embed = discord.Embed(description="Non è stato possibile mandare un messaggio a questo canale.", color=discord.Color.red())
                         await ctx.send(embed=embed)
+                        print(e)
                         return
 
                     embed = discord.Embed(description='Messaggio inviato!', color=discord.Color.green())
