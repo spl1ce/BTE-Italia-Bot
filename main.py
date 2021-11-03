@@ -6,7 +6,7 @@ intents=discord.Intents.all()
 intents.reactions=True
 intents.messages=True
 
-bot = commands.Bot(command_prefix='£', intents=intents)
+bot = commands.Bot(command_prefix='+', intents=intents)
 
 async def run_once_when_ready():
     await bot.wait_until_ready()
