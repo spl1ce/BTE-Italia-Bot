@@ -170,9 +170,30 @@ class Utilities(commands.Cog):
                             embed=discord.Embed(description="Rimosso il ruolo Newbie ma non è stato posssibile assegnare Starter.", color=discord.Color.red())
                             await ctx.send(embed=embed)
                             return
-                        
-                        embed=discord.Embed(description=f"Approvato {member.name}#{member.discriminator}!", color=discord.Color.green())
-                        await ctx.send(embed=embed)
+
+                        # Search for the user in the sheets
+                        applicationsList = sh.get()
+                        minecraftName = ""
+                        for application in applicationsList:
+                            #      v-- Discord name + discriminator
+                            if application[2] == f"{member.name}#{member.discriminator}":
+                                # Minecraft In game name
+                                minecraftName = application[1]
+
+                        if minecraftName == "":
+                            embed = discord.Embed(
+                                description="{member.name}#{member.discriminator} è stato approvato su Discord ma non su Minecraft, per favore contatta il <@&696409124102996068>.", color=discord.Color.gold())
+                            await ctx.send(embed=embed)
+                        else:
+                            # Send lp command to the console channel
+                            console_channel = ctx.guild.get_channel(
+                                778281056284442664)
+
+                            await console_channel.send(f"lp user {minecraftName} group add starter")
+
+                            embed = discord.Embed(
+                                description=f"Approvato {member.name}#{member.discriminator}!", color=discord.Color.green())
+                            await ctx.send(embed=embed)
 
                     else:
                         embed = discord.Embed(description='Utente ha già il ruolo Starter.', color=discord.Color.red())
