@@ -2,7 +2,7 @@ import discord
 import emoji
 from discord.ext import commands
 from os import environ
-from ..utils.spreadsheet import Spreadsheet
+from utils.spreadsheet import Spreadsheet
 from asyncio import sleep
 
 sh = Spreadsheet(environ.get('SPREADSHEET_ID'))
