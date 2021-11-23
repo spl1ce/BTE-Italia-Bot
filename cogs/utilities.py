@@ -1,6 +1,18 @@
 import discord
 import emoji
 from discord.ext import commands
+from os import environ
+from ..utils.spreadsheet import Spreadsheet
+from asyncio import sleep
+
+sh = Spreadsheet(environ.get('SPREADSHEET_ID'))
+
+
+async def refresh_spreadsheet():
+    while True:
+        sh.fetch()
+        await sleep(10800)  # 3 hours
+
 
 class Utilities(commands.Cog):
     def __init__(self, bot): 
@@ -189,5 +201,7 @@ class Utilities(commands.Cog):
         else:
             print(error)
 
+
 def setup(bot):
     bot.add_cog(Utilities(bot))
+    bot.loop.create_task(refresh_spreadsheet())
