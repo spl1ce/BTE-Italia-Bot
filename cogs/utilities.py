@@ -182,7 +182,7 @@ class Utilities(commands.Cog):
 
                         if minecraftName == "":
                             embed = discord.Embed(
-                                description="{member.name}#{member.discriminator} è stato approvato su Discord ma non su Minecraft, per favore contatta il <@&696409124102996068>.", color=discord.Color.gold())
+                                description=f"{member.name}#{member.discriminator} è stato approvato su Discord ma non su Minecraft, per favore contatta il <@&696409124102996068>.", color=discord.Color.gold())
                             await ctx.send(embed=embed)
                         else:
                             # Send lp command to the console channel
