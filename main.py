@@ -1,17 +1,21 @@
 import discord
 import os
 from discord.ext import commands
+import logging
 
-intents=discord.Intents.all()
-intents.reactions=True
-intents.messages=True
+logging.basicConfig(level=logging.WARNING)
+
+intents = discord.Intents.all()
+intents.reactions = True
+intents.messages = True
 
 bot = commands.Bot(command_prefix='£', intents=intents)
+
 
 async def run_once_when_ready():
     await bot.wait_until_ready()
     print('BTE Italia Bot In Funzione!')
-    await bot.change_presence(activity=discord.Activity(type = discord.ActivityType.watching,name='www.bteitalia.it'))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='bteitalia.it'))
 
 
 for filename in os.listdir('./cogs'):
