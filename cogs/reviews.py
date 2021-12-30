@@ -63,10 +63,10 @@ class Reviews(commands.Cog):
 
                     # check if member has international role or italiano role
                     if italiano_role in member.roles:
-                        notification_message = f"Congratulazioni, {member.mention}!\nSei stato accettato come Newbie a {city}."
+                        notification_message = f"Congratulazioni, {member.mention}!\nSei stato accettato come _Newbie_ a _{city}_."
 
                     elif international_role in member.roles:
-                        notification_message = f"Congratulations, {member.mention}!\nYou've been accepted as a Newbie in {city}"
+                        notification_message = f"Congratulations, {member.mention}!\nYou've been accepted as a _Newbie_ in _{city}_."
 
                     else:
                         embed = discord.Embed(
@@ -102,7 +102,7 @@ class Reviews(commands.Cog):
                         description="L'utente non è nel server", color=discord.Color.red())
                     await log_channel.send(content=revisore_role.mention, embed=embed)
 
-            elif payload.emoji == '❌':
+            elif str(payload.emoji) == '❌':
 
                 username = message.embeds[0].fields[0].value
                 notifiche_channel = guild.get_channel(697169688005836810)
