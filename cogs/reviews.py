@@ -26,8 +26,7 @@ class Reviews(commands.Cog):
             # If the user has not the role revisore, the reaction is removed
             if not revisore_role in reactor.roles:
                 embed = discord.Embed(
-                    description="<@%d> ha provato ad accettare un membro senza permesso" % (
-                        payload.user_id),
+                    description=f"{revisore_role.mention} ha provato ad accettare un membro senza permesso",
                     color=discord.Color.red()
                 )
                 await log_channel.send(content=revisore_role.mention, embed=embed)
@@ -47,7 +46,7 @@ class Reviews(commands.Cog):
                     member = await converter.convert(ctx, username)
                 except commands.MemberNotFound:
                     embed = discord.Embed(
-                        description="Member not found.", color=discord.Color.red())
+                        description="Utente non trovato.", color=discord.Color.red())
                     await log_channel.send(content=revisore_role.mention, embed=embed)
                     return
 
@@ -57,7 +56,6 @@ class Reviews(commands.Cog):
                     international_role = guild.get_role(698566163738656909)
                     notifiche_channel = guild.get_channel(697169688005836810)
                     console_channel = guild.get_channel(778281056284442664)
-                    starter_role = guild.get_role(704332197628477450)
                     newbie_role = guild.get_role(884464061851521065)
                     nord_role = guild.get_role(698642644640858234)
                     centro_role = guild.get_role(698642874455163052)
@@ -71,7 +69,8 @@ class Reviews(commands.Cog):
                         notification_message = f"Congratulations, {member.mention}!\nYou've been accepted as a Newbie in {city}"
 
                     else:
-                        embed=discord.Embed(description="Member doesn't have international role nor italiano role.", color=discord.Color.red())
+                        embed = discord.Embed(
+                            description=f"L'utente non ha né {italiano_role.mention}, né {international_role.mention}", color=discord.Color.red())
                         await log_channel.send(content=revisore_role.mention, embed=embed)
                         return
 
@@ -95,12 +94,12 @@ class Reviews(commands.Cog):
                         await member.add_roles(sud_role)
                     else:
                         embed = discord.Embed(
-                            description='Macroregion not found.', color=discord.Color.red())
+                            description='Macroregione errata.', color=discord.Color.red())
                         await log_channel.send(content=revisore_role.mention, embed=embed)
 
                 else:
                     embed = discord.Embed(
-                        description="Member is not in the server or has no roles.", color=discord.Color.red())
+                        description="L'utente non è nel server", color=discord.Color.red())
                     await log_channel.send(content=revisore_role.mention, embed=embed)
 
             elif payload.emoji == '❌':
@@ -119,7 +118,7 @@ class Reviews(commands.Cog):
 
                 except commands.MemberNotFound:
                     embed = discord.Embed(
-                        description="Member not found.", color=discord.Color.red())
+                        description="Utente non trovato.", color=discord.Color.red())
                     await log_channel.send(content=revisore_role.mention, embed=embed)
                     return
 
@@ -133,7 +132,7 @@ class Reviews(commands.Cog):
 
                 else:
                     embed = discord.Embed(
-                        description="Member has no roles.", color=discord.Color.red())
+                        description="L'utente non ha ruoli", color=discord.Color.red())
                     await log_channel.send(content=revisore_role.mention, embed=embed)
 
 
