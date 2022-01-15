@@ -1,5 +1,5 @@
-import discord
 from discord.ext import commands
+from discord import Color, Embed
 
 
 class Reviews(commands.Cog):
@@ -13,6 +13,7 @@ class Reviews(commands.Cog):
         if payload.channel_id == 867045228543606854:
             guild = self.bot.get_guild(payload.guild_id)
             channel = guild.get_channel(payload.channel_id)
+            console_channel = guild.get_channel(778281056284442664)
             message = await channel.fetch_message(payload.message_id)
             ctx = await self.bot.get_context(message)
             emoji_converter = commands.PartialEmojiConverter()
@@ -25,9 +26,9 @@ class Reviews(commands.Cog):
 
             # If the user has not the role revisore, the reaction is removed
             if not revisore_role in reactor.roles:
-                embed = discord.Embed(
+                embed = Embed(
                     description=f"{revisore_role.mention} ha provato ad accettare un membro senza permesso",
-                    color=discord.Color.red()
+                    color=Color.red()
                 )
                 await log_channel.send(content=revisore_role.mention, embed=embed)
                 await message.remove_reaction(verify_emoji, reactor)
@@ -45,17 +46,19 @@ class Reviews(commands.Cog):
                     converter = commands.MemberConverter()
                     member = await converter.convert(ctx, username)
                 except commands.MemberNotFound:
-                    embed = discord.Embed(
-                        description="Utente non trovato.", color=discord.Color.red())
+                    embed = Embed(
+                        description="Utente non trovato.", color=Color.red())
                     await log_channel.send(content=revisore_role.mention, embed=embed)
                     return
+
+                # run command in #console
+                await console_channel.send(f'lp user {ign} group add Newbie')
 
                 # check if user is in the discord server
                 if guild in member.mutual_guilds and len(member.roles) != 1:
                     italiano_role = guild.get_role(698617888675856514)
                     international_role = guild.get_role(698566163738656909)
                     notifiche_channel = guild.get_channel(697169688005836810)
-                    console_channel = guild.get_channel(778281056284442664)
                     newbie_role = guild.get_role(884464061851521065)
                     nord_role = guild.get_role(698642644640858234)
                     centro_role = guild.get_role(698642874455163052)
@@ -69,8 +72,8 @@ class Reviews(commands.Cog):
                         notification_message = f"Congratulations, {member.mention}!\nYou've been accepted as a _Newbie_ in _{city}_."
 
                     else:
-                        embed = discord.Embed(
-                            description=f"L'utente non ha né {italiano_role.mention}, né {international_role.mention}", color=discord.Color.red())
+                        embed = Embed(
+                            description=f"L'utente non ha né {italiano_role.mention}, né {international_role.mention}.\nÈ stato comunque approvato su Minecraft.", color=Color.gold())
                         await log_channel.send(content=revisore_role.mention, embed=embed)
                         return
 
@@ -83,9 +86,6 @@ class Reviews(commands.Cog):
                     # edits user nickname
                     await member.edit(nick=f'{member.name} [{city}]')
 
-                    # run command in #console
-                    await console_channel.send(f'lp user {ign} group add Newbie')
-
                     if macroregion == 'NORD':
                         await member.add_roles(nord_role)
                     elif macroregion == 'CENTRO':
@@ -93,13 +93,13 @@ class Reviews(commands.Cog):
                     elif macroregion == 'SUD':
                         await member.add_roles(sud_role)
                     else:
-                        embed = discord.Embed(
-                            description='Macroregione errata.', color=discord.Color.red())
+                        embed = Embed(
+                            description="Macroregione errata.\nL'utente è stato comunque approvato su Minecraft.", color=Color.gold())
                         await log_channel.send(content=revisore_role.mention, embed=embed)
 
                 else:
-                    embed = discord.Embed(
-                        description="L'utente non è nel server", color=discord.Color.red())
+                    embed = Embed(
+                        description="L'utente non è nel server.\nÈ stato comunque approvato su Minecraft.", color=Color.gold())
                     await log_channel.send(content=revisore_role.mention, embed=embed)
 
             elif str(payload.emoji) == '❌':
@@ -117,22 +117,22 @@ class Reviews(commands.Cog):
                     member = await converter.convert(ctx, username)
 
                 except commands.MemberNotFound:
-                    embed = discord.Embed(
-                        description="Utente non trovato.", color=discord.Color.red())
+                    embed = Embed(
+                        description="Utente non trovato.", color=Color.red())
                     await log_channel.send(content=revisore_role.mention, embed=embed)
                     return
 
                 if italiano_role in member.roles:
-                    message = f'Ci dispiace {member.mention}!\La tua applicazione è stata rigettata, chiedi in {supporto_channel.mention} la motivazione.'
+                    message = f'Ci dispiace {member.mention}!\nLa tua applicazione è stata rigettata, chiedi in {supporto_channel.mention} la motivazione.'
                     await notifiche_channel.send(message)
 
                 elif international_role in member.roles:
-                    message = f"Sorry, {member.mention}!\Your application has been denied, ask in {supporto_channel.mention} the reason."
+                    message = f"Sorry, {member.mention}!\nYour application has been denied, ask in {supporto_channel.mention} the reason."
                     await notifiche_channel.send(message)
 
                 else:
-                    embed = discord.Embed(
-                        description="L'utente non ha ruoli", color=discord.Color.red())
+                    embed = Embed(
+                        description="L'utente non ha ruoli", color=Color.red())
                     await log_channel.send(content=revisore_role.mention, embed=embed)
 
 
