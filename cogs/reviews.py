@@ -135,6 +135,54 @@ class Reviews(commands.Cog):
                         description="L'utente non ha ruoli", color=Color.red())
                     await log_channel.send(content=revisore_role.mention, embed=embed)
 
+    @commands.command(name='unsafe_accetta_revisione', aliases=['uar'])
+    @commands.has_role(942773350080581692)
+    async def unsafe_accetta_revisione(self, ctx, member=None, minecraft_name=None):
+        if member is None or minecraft_name is None:
+            embed = Embed(
+                description="Devi specivicare nome utente sia di Discord che di Minecraft.", color=Color.red())
+            await ctx.send(embed=embed)
+            return
+
+        # Converts the member to a discord.Member object
+        try:
+            converter = commands.MemberConverter()
+            member = await converter.convert(ctx, member)
+
+            # Check if the member is in the discord server
+            if member.guild != ctx.guild:
+                raise commands.MemberNotFound()
+        except commands.MemberNotFound:
+            embed = Embed(
+                description='Utente non trovato o non è nel server!', color=Color.red())
+            await ctx.send(embed=embed)
+            return
+
+        italiano_role = ctx.guild.get_role(698617888675856514)
+        international_role = ctx.guild.get_role(698566163738656909)
+        newbie_role = ctx.guild.get_role(884464061851521065)
+        notifiche_channel = ctx.guild.get_channel(697169688005836810)
+        console_channel = ctx.guild.get_channel(778281056284442664)
+
+        # run command in #console
+        await console_channel.send(f'lp user {minecraft_name} group add Newbie')
+
+        # check if member has international role or italiano role
+        if italiano_role in member.roles:
+            notification_message = f"Congratulazioni, {member.mention}!\nSei stato accettato come _Newbie_."
+        elif international_role in member.roles:
+            notification_message = f"Congratulations, {member.mention}!\nYou've been accepted as a _Newbie_."
+        else:
+            embed = Embed(
+                description=f"L'utente non ha né {italiano_role.mention}, né {international_role.mention}.\nÈ stato comunque approvato su Minecraft.", color=Color.gold())
+            await ctx.send(embed=embed)
+            return
+
+        await notifiche_channel.send(notification_message)
+
+        # gives starter role and macroregion role
+        await member.add_roles(newbie_role)
+
 
 def setup(bot):
     bot.add_cog(Reviews(bot))
