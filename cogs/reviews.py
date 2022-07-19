@@ -136,7 +136,7 @@ class Reviews(commands.Cog):
                     await log_channel.send(content=revisore_role.mention, embed=embed)
 
     @commands.command(name='unsafe_accetta_revisione', aliases=['uar'])
-    @commands.has_role(942773350080581692)
+    @commands.has_role(830888232609906698)
     async def unsafe_accetta_revisione(self, ctx, member=None, minecraft_name=None):
         if member is None or minecraft_name is None:
             embed = Embed(
