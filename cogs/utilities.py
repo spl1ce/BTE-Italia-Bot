@@ -23,7 +23,7 @@ class Utilities(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name='messaggio')
-    @commands.has_role(695697978391789619)
+    @commands.has_role(859467091639009350)
     async def messaggio(self, ctx, channel=None, *, message=None):
         converter = commands.TextChannelConverter()
 
@@ -69,7 +69,7 @@ class Utilities(commands.Cog):
             await ctx.send(embed=embed)
 
     @commands.command(name='reazione')
-    @commands.has_role(695697978391789619)
+    @commands.has_role(859467091639009350)
     async def reazione(self, ctx, message=None, reaction=None):
         if message != None:
 
