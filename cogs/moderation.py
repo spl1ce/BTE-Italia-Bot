@@ -18,24 +18,24 @@ class Moderation(commands.Cog):
         limit=100
         if 1 <= amount <= limit:
             await ctx.channel.purge(limit=amount+1)
-            embed=discord.Embed(description=f'Cancellati {amount} messaggi.', color=discord.Color.green())
+            embed=discord.Embed(description=f':wastebasket: Cancellati {amount} messaggi.', color=discord.Color.green())
             message = await ctx.channel.send(embed=embed)
             time.sleep(10)
             await message.delete()
 
         else:
-            embed=discord.Embed(description='Perfavore inserisci un numero tra `0-100`.', color=discord.Color.red())
+            embed=discord.Embed(description=':x: Perfavore inserisci un numero tra `0-100`.', color=discord.Color.red())
             await ctx.channel.send(embed=embed)
 
     @clear.error
     async def handler(self, ctx, error):
         if isinstance(error, commands.BadArgument) or isinstance(error, commands.MissingRequiredArgument):
-            embed=discord.Embed(description='Perfavore inserisci un numero valido tra `0-100`.', color=discord.Color.red())
+            embed=discord.Embed(description=':x: Perfavore inserisci un numero valido tra `0-100`.', color=discord.Color.red())
             await ctx.channel.send(embed=embed)
         else:
             print(error)
     
-    @commands.command()
+    @commands.command(name='banlist', description='Fornirà la lista degli utenti bannati.')
     @commands.has_permissions(ban_members=True)
     async def banlist(self, ctx):
         page = 1
@@ -83,7 +83,7 @@ class Moderation(commands.Cog):
             )
             await ctx.send(embed=embed)
 
-    @commands.command()
+    @commands.command(name='ban', description='Bannerà dal server il utente specificato.')
     @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, member: discord.Member = None, *, reason=None):
         if member == None:
@@ -109,7 +109,7 @@ class Moderation(commands.Cog):
             )
             await ctx.send(embed=embed)
             
-    @commands.command()
+    @commands.command(name='unban', description='Sbannerà dal server il utente specificato.')
     @commands.has_permissions(ban_members=True)
     async def unban(self, ctx, *, member=None):
         if member == None:
@@ -142,7 +142,7 @@ class Moderation(commands.Cog):
             )
             await ctx.send(embed=embed)
             
-    @commands.command()
+    @commands.command(name='kick', description='Kickerà dal server il utente specificato.')
     @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, member: discord.Member = None, *, reason=None):
         if member == None:
@@ -167,8 +167,7 @@ class Moderation(commands.Cog):
             )
             await ctx.send(embed=embed)
            
-    @commands.command()
-    @commands.has_permissions(kick_members=True)
+    @commands.command(name='userinfo', description='Fornirà informazioni di un utente.')
     async def userinfo(self, ctx, member: discord.Member = None):
         if member == None:
             member = ctx.author
