@@ -77,6 +77,65 @@ class Moderation(commands.Cog):
                 colour=discord.Colour.red()
             )
             await ctx.send(embed=embed)
+
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def ban(self, ctx, member: discord.Member = None, *, reason=None):
+        if member == None:
+            embed = discord.Embed(
+                description=':x: Perfavore specifica un utente da bannare', color=discord.Color.red())
+            await ctx.send(embed=embed)
+        else:
+            await member.ban(reason=reason)
+            embed = discord.Embed(
+                description='✅ Bannato {} per ``{}``'.format(
+                    member.mention, reason),
+                colour=discord.Colour.green()
+            )
+
+            await ctx.send(embed=embed)
+
+    @ban.error
+    async def ban_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            embed = discord.Embed(
+                description='Non hai il permesso di eseguire questo comando',
+                colour=discord.Colour.red()
+            )
+            await ctx.send(embed=embed)
+            
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def unban(self, ctx, *, member=None):
+        if member == None:
+            embed = discord.Embed(
+                description=':x: Perfavore specifica un utente da sbannare', color=discord.Color.red())
+            await ctx.send(embed=embed)
+        else:
+            banned_users = await ctx.guild.bans()
+            member_name, member_discriminator = member.split('#')
+
+            for ban_entry in banned_users:
+                user = ban_entry.user
+
+                if(user.name, user.discriminator) == (member_name, member_discriminator):
+                    await ctx.guild.unban(user)
+                    embed = discord.Embed(
+                        description='✅ Sbannato {}'.format(
+                            user.mention),
+                        colour=discord.Colour.green()
+                    )
+                    await ctx.send(embed=embed)
+                    return
+
+    @unban.error
+    async def unban_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            embed = discord.Embed(
+                description='Non hai il permesso di usare questo comando',
+                colour=discord.Colour.red()
+            )
+            await ctx.send(embed=embed)
             
 def setup(bot):
     bot.add_cog(Moderation(bot))
