@@ -2,6 +2,11 @@ import discord
 import time
 from discord.ext import commands
 import asyncio
+import time
+import pymongo
+import os
+import re
+from datetime import datetime
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
@@ -161,6 +166,49 @@ class Moderation(commands.Cog):
                 colour=discord.Colour.red()
             )
             await ctx.send(embed=embed)
+           
+    @commands.command()
+    @commands.has_permissions(kick_members=True)
+    async def userinfo(self, ctx, member: discord.Member = None):
+        if member == None:
+            member = ctx.author
+        embed = discord.Embed(
+            color=discord.Color.orange(),
+            timestamp=ctx.message.created_at
+        )
+        embed.set_thumbnail(url=member.avatar_url)
+        embed.set_author(
+            name=f'Informazioni su: {member.display_name}'
+        )
+        embed.add_field(
+            name=':bust_in_silhouette: Informazioni Account',
+            value=f":signal_strength: Attualmente {member.status}\n:beginner: Creato il {member.created_at.strftime('%d %b %Y %H:%M')}",
+            inline=False
+        )
+        if member.premium_since == None:
+            embed.add_field(
+                name=':desktop: Informazioni Server',
+                value=f":beginner: Entrato il {member.joined_at.strftime('%d %b %Y %H:%M')}\n:x: Non boostando il server",
+                inline=False
+            )
+        else:
+            embed.add_field(
+                name=':desktop: Informazioni Server',
+                value=f":beginner: Entrato il {member.joined_at.strftime('%d %b %Y %H:%M')}\n:sparkles: Boostando il server",
+                inline=False
+            )
+        role_str = ''
+        for role in member.roles:
+            role_str += str(role)+' | '
+        embed.add_field(
+            name=':busts_in_silhouette: Ruoli',
+            value=role_str,
+            inline=False
+        )
+        embed.set_footer(
+            text=f'ID: {member.id}'
+        )
+        await ctx.send(embed=embed)
             
 def setup(bot):
     bot.add_cog(Moderation(bot))
