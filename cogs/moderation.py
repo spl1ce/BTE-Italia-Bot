@@ -7,6 +7,9 @@ import pymongo
 import os
 import re
 from datetime import datetime
+from discord.utils import get
+import math
+import json
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
@@ -241,6 +244,41 @@ class Moderation(commands.Cog):
         await ctx.send(
             embed=embed
         )        
+            
+    @commands.command(
+        name='listserver',
+        description='Lista dei server in cui il bot è presente',
+        usage='`£listserver`',
+        aliases=['ls', 'serverlist', 'sl']        
+    )
+    async def listserver(self, ctx, page: int = 1):
+        output = ''
+        guilds = self.bot.guilds
+        pages = math.ceil(len(guilds)/10)
+        if 1 <= page <= pages:
+            counter = 1+(page-1)*10
+            for guild in guilds[(page-1)*10:page*10]:
+                output += f'{counter}. {guild.name}\n'
+                counter += 1
+            embed = discord.Embed(
+                color=discord.Color.orange(),
+                description=output,
+                title='**LISTA SERVER**',
+                timestamp=ctx.message.created_at
+            )
+            embed.set_footer(
+                text=f'Pagina {page} su {pages}'
+            )
+            await ctx.send(
+                embed=embed
+            )
+        else:
+            await ctx.send(
+                embed=create_embed(
+                    ':x: La pagina che hai specificato non esiste'
+                ),
+                delete_after=10
+            )            
             
 def setup(bot):
     bot.add_cog(Moderation(bot))
