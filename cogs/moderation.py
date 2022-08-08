@@ -137,5 +137,30 @@ class Moderation(commands.Cog):
             )
             await ctx.send(embed=embed)
             
+    @commands.command()
+    @commands.has_permissions(kick_members=True)
+    async def kick(self, ctx, member: discord.Member = None, *, reason=None):
+        if member == None:
+            embed = discord.Embed(
+                description=':x: Perfavore specifica un utente da kickare', color=discord.Color.red())
+            await ctx.send(embed=embed)
+        else:
+            await member.kick(reason=reason)
+            embed = discord.Embed(
+                description='✅ Kickato {} per ``{}``'.format(
+                    member.mention, reason),
+                colour=discord.Colour.green()
+            )
+            await ctx.send(embed=embed)
+
+    @kick.error
+    async def kick_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            embed = discord.Embed(
+                description='Non hai il permesso di eseguire questo comando',
+                colour=discord.Colour.red()
+            )
+            await ctx.send(embed=embed)
+            
 def setup(bot):
     bot.add_cog(Moderation(bot))
