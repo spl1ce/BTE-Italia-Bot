@@ -208,6 +208,39 @@ class Moderation(commands.Cog):
             text=f'ID: {member.id}'
         )
         await ctx.send(embed=embed)
+        
+    @commands.command(name='serverinfo', description='Fornirà informazioni sul server.')
+    async def serverinfo(self, ctx):
+        embed = discord.Embed(
+            color=discord.Color.orange(),
+            timestamp=ctx.message.created_at
+        )
+        embed.set_footer(
+            text=f'ID: {ctx.guild.id}'
+        )
+        embed.set_thumbnail(url=ctx.guild.icon_url)
+        embed.set_author(name=ctx.guild.name)
+        embed.add_field(
+            name=':desktop: Server info',
+            value=f":beginner: Creato il {ctx.guild.created_at.strftime('%d %b %Y %H:%M')}\n:sparkles: Livello boost server: {ctx.guild.premium_tier}\n:globe_with_meridians: Regione Server: {ctx.guild.region}\n:crown: Creatore Server: {ctx.guild.owner.display_name}",
+            inline=False
+        )
+        embed.add_field(
+            name=':bust_in_silhouette: Membri',
+            value=f"{ctx.guild.member_count} memberi nel server\n{ctx.guild.premium_subscription_count} persone hanno boostato il server",
+            inline=False
+        )
+        role_output = ''
+        for role in ctx.guild.roles:
+            role_output += str(role)+' | '
+        embed.add_field(
+            name=':busts_in_silhouette: Ruoli',
+            value=role_output,
+            inline=False
+        )
+        await ctx.send(
+            embed=embed
+        )        
             
 def setup(bot):
     bot.add_cog(Moderation(bot))
