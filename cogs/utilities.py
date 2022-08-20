@@ -134,6 +134,9 @@ class Utilities(commands.Cog):
             embed = discord.Embed(description='You must provide a message.', color=discord.Color.red())
             await ctx.send(embed=embed)
 
+    @commands.command(name='ping')
+    async def ping(self, ctx):
+        await ctx.send(f'**Pong! 🏓** - `{int(self.bot.latency*1000)}ms`')
 
 
 
