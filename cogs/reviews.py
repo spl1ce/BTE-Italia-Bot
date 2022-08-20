@@ -142,7 +142,5 @@ class Reviews(commands.Cog):
                     embed=discord.Embed(description="Member has no roles.", color=discord.Color.red())
                     await log_channel.send(content=revisore_role.mention, embed=embed)
 
-
-def setup(bot):
-    bot.add_cog(Reviews(bot))
-    
+async def setup(bot):
+    await bot.add_cog(Reviews(bot))
